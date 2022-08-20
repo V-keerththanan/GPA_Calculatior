@@ -104,31 +104,42 @@ public class DBOperations {
 
 
     public void exportData(){
-        BufferedWriter bw;
+    
         String makeStr;
         ResultSet result;
 
 
         try{
-            FileWriter fileWriter=new FileWriter("text.txt");
-            bw=new BufferedWriter(fileWriter);
-            String content="CourseCode CourseCredit Coursegrade CourseYear";
-            bw.write(content);
+            FileWriter writer = new FileWriter("reportCourse.txt");
+            BufferedWriter bwr = new BufferedWriter(writer);
+            bwr.write("CourseCode");
+            bwr.write("\t\t");
+            bwr.write("CourseGrade");
+            bwr.write("\t\t");
+            bwr.write("CourseCredit");
+            bwr.write("\t\t");
+            bwr.write("Year");
+
+
+
             result= mycon.getMyConnection().createStatement().executeQuery("SELECT * FROM courseDetails");
 
             while (result.next()) {
+                bwr.write("\n");
                 String cod=result.getString(2);
                 int cred=result.getInt(3);
                 String grade=result.getString(4);
                 int year=result.getInt(5);
                 makeStr=cod+"\t"+cred+"\t"+grade+"\t"+year;
-                bw.write(makeStr);
+                bwr.write(makeStr);
 
             }
+            bwr.close();
 
         } catch (Exception e) {
             System.err.format("IOException: %s%n", e);
         }
+
 
 
 
